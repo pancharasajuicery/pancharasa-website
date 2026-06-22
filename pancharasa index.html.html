@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pancharasa Juicery | Order Online</title>
+<style>
+:root{--green:#006241;--dark:#1e3932;--yellow:#ffcf33;--bg:#f8f8f8}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:Segoe UI,Arial,sans-serif;background:#f8f8f8;color:#111;overflow-x:hidden}
+.top{background:#1e3932;color:white;padding:10px 8%;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;font-weight:800}
+header{height:78px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 8%;box-shadow:0 1px 8px rgba(0,0,0,.12);position:sticky;top:0;z-index:30}
+.logo{display:flex;gap:12px;align-items:center;color:var(--green);font-size:23px;font-weight:900}.logo span{width:48px;height:48px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:27px;animation:pulse 2s infinite}
+nav{display:flex;gap:25px}nav a{text-decoration:none;color:#333;font-weight:700;padding:28px 0}nav a:hover,nav a.active{color:var(--green);border-bottom:3px solid var(--green)}
+.search{width:270px;border:1px solid #ddd;border-radius:28px;padding:12px 20px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.hero{min-height:calc(100vh - 118px);display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:center;padding:66px 8%;background:linear-gradient(135deg,#fffbea,#f3ffe8,#e3ffdc)}
+.hero h1{font-family:Georgia,serif;font-size:clamp(3.4rem,6vw,6.4rem);line-height:.98;color:#1d3d33;margin-bottom:22px}.hero h1 span{color:var(--green);animation:floatWord 3s infinite;display:inline-block}
+.hero p{font-size:1.16rem;line-height:1.8;color:#375b50;max-width:670px}.badge{display:inline-block;background:#ffedaa;color:#664400;padding:12px 20px;border-radius:999px;font-weight:900;margin-bottom:22px}
+.info{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:24px 0}.pill{background:white;padding:15px;border-radius:18px;font-weight:850;box-shadow:0 8px 22px rgba(0,0,0,.08);transition:.3s}.pill:hover{transform:translateY(-6px)}
+.btn{display:inline-block;text-decoration:none;border-radius:999px;padding:14px 25px;font-weight:900;transition:.3s;border:none;cursor:pointer}.green{background:var(--green);color:white;box-shadow:0 12px 28px rgba(0,98,65,.27)}.white{background:white;color:var(--green);border:1px solid #d6e6dc}.yellow{background:var(--yellow);color:#2d2600}.btn:hover{transform:translateY(-4px)}
+.art{height:540px;position:relative}.circle{position:absolute;width:420px;height:420px;border-radius:50%;background:#e8ffe5;left:50%;top:55px;transform:translateX(-50%);box-shadow:0 25px 70px rgba(0,98,65,.16);animation:glow 4s infinite}
+.cupwrap{position:absolute;left:50%;top:128px;transform:translateX(-50%);width:190px;height:260px;animation:cupFloat 3.4s infinite}.cup{position:absolute;left:10px;top:42px;width:170px;height:215px;background:linear-gradient(#f4efff,#d5c5ff);border-radius:18px 18px 35px 35px;overflow:hidden;box-shadow:0 28px 42px rgba(0,0,0,.2)}
+.cup:before{content:"";position:absolute;top:0;left:0;right:0;height:72px;background:linear-gradient(135deg,#ff2c70,#d80f56)}.cup:after{content:"";position:absolute;left:20px;bottom:0;width:130px;height:9px;border-radius:20px 20px 0 0;background:#b591ff}
+.lid{position:absolute;top:28px;left:0;width:190px;height:24px;border-radius:20px;background:linear-gradient(#ededf2,#bfc0cb);z-index:3}.lid:before{content:"";position:absolute;width:86px;height:28px;border-radius:20px 20px 5px 5px;background:#ececf0;top:-20px;left:52px}
+.straw{position:absolute;width:13px;height:106px;background:#ef2c6f;border-radius:10px;left:104px;top:-20px;z-index:2;animation:straw 3s infinite}.straw:before{content:"";position:absolute;width:48px;height:13px;border-radius:10px;background:#ef2c6f;top:0;left:0}
+.spark{position:absolute;width:8px;height:8px;background:white;border-radius:50%;opacity:.65;animation:spark 2.8s linear infinite}.s1{left:52px;bottom:35px}.s2{left:92px;bottom:22px;animation-delay:.8s}.s3{left:125px;bottom:48px;animation-delay:1.4s}
+.fruit{position:absolute;font-size:56px;filter:drop-shadow(0 18px 18px rgba(0,0,0,.14));animation:fruit 5s infinite}.f1{top:28px;left:125px}.f2{top:135px;right:80px;animation-delay:.5s}.f3{top:300px;right:65px;animation-delay:1s}.f4{bottom:90px;left:90px;animation-delay:1.5s}.f5{top:382px;right:175px;animation-delay:2s}
+.delivery{margin:0 8% 50px;background:white;border-radius:30px;padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:24px;box-shadow:0 18px 45px rgba(0,0,0,.13)}.delivery h2{color:var(--green);font-size:2.1rem;margin-bottom:12px}.delivery p{line-height:1.8;color:#4b665d}.rapido{background:linear-gradient(135deg,#ffe45c,#ffbd00);border-radius:24px;padding:25px}
+.cats{background:white;border-top:1px solid #e7e7e7;border-bottom:1px solid #e7e7e7;padding:15px 8%;position:sticky;top:78px;z-index:15}.scroll{display:flex;gap:14px;overflow-x:auto}.chip{min-width:max-content;background:#eee;border-radius:12px;padding:9px 24px;color:#555;cursor:pointer;transition:.25s}.chip:hover,.chip.active{background:var(--green);color:white}
+.main{padding:70px 8%}.main h2{font-size:26px;margin-bottom:10px}.quote{margin:25px 0;padding:22px;border-radius:18px;background:linear-gradient(135deg,var(--dark),var(--green));color:white;font-size:22px;font-weight:750;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.card{min-height:235px;background:white;border:1px solid #eee;border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.1);display:flex;flex-direction:column;justify-content:space-between;transition:.3s;animation:fadeUp .7s both}.card:hover{transform:translateY(-8px);box-shadow:0 12px 30px rgba(0,0,0,.16)}
+.cardtop{display:flex;gap:18px}.img{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#e9f6ef,#fff7d9);display:grid;place-items:center;font-size:48px}.tag{display:inline-block;background:#dff3eb;color:var(--green);font-size:11px;font-weight:800;border-radius:5px;padding:4px 8px;margin-bottom:8px}.desc{font-size:14px;color:#3b4a45;line-height:1.5}.meta{font-size:12px;color:#999;margin:5px 0}.pricebar{display:flex;align-items:center;justify-content:space-between;margin-top:22px}.price{font-size:19px;font-weight:900}.add{border:none;background:#888;color:white;border-radius:24px;padding:12px 25px;font-weight:800;cursor:pointer}.add:hover{background:var(--green)}
+.cart{position:fixed;right:24px;bottom:24px;width:390px;background:white;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.22);overflow:hidden;z-index:60;transform:translateY(115%);transition:.35s}.cart.show{transform:translateY(0)}.carthead{background:var(--dark);color:white;padding:18px;font-weight:800;display:flex;justify-content:space-between}.cartbody{padding:18px}.cartitem{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;border-bottom:1px solid #eee;padding:10px 0;font-size:14px}.cartitem button{border:none;background:#eee;border-radius:10px;padding:5px 8px;cursor:pointer}.zone{width:100%;padding:12px;border-radius:14px;border:1px solid #ddd;margin:12px 0;font-weight:700}.row{display:flex;justify-content:space-between;padding:8px 0}.total{font-weight:900;font-size:20px;text-align:right;margin:10px 0;border-top:2px solid #eee;padding-top:12px}.wa{display:block;text-align:center;background:#25D366;color:white;text-decoration:none;padding:14px;border-radius:30px;font-weight:900}
+.float{position:fixed;right:24px;bottom:24px;width:64px;height:64px;border-radius:50%;background:#25D366;color:white;display:grid;place-items:center;text-decoration:none;font-size:30px;box-shadow:0 10px 30px rgba(0,0,0,.25);z-index:45;animation:pulse 2s infinite}
+.bulk{margin-top:50px;background:white;border-radius:18px;padding:32px;box-shadow:0 3px 14px rgba(0,0,0,.12);display:grid;grid-template-columns:1.2fr .8fr;gap:24px}.bulk h2{color:var(--green);font-size:30px}.bulk ul{list-style:none;margin-top:18px}.bulk li{padding:8px 0;font-weight:600}.box{background:#f1f8f4;border-radius:16px;padding:24px}
+footer{background:var(--dark);color:white;text-align:center;padding:35px;margin-top:60px}footer p{margin:8px 0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}@keyframes floatWord{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}@keyframes cupFloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-24px)}}@keyframes fruit{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-18px) rotate(8deg)}}@keyframes straw{0%,100%{transform:rotate(0)}50%{transform:rotate(7deg)}}@keyframes glow{0%,100%{box-shadow:0 25px 70px rgba(0,98,65,.16)}50%{box-shadow:0 28px 90px rgba(0,98,65,.25)}}@keyframes spark{0%{opacity:0;transform:translateY(0)}30%{opacity:.8}100%{opacity:0;transform:translateY(-140px)}}
+@media(max-width:900px){header{height:auto;padding:15px 4%;flex-wrap:wrap}nav{order:3;width:100%;justify-content:space-around;gap:8px}nav a{padding:12px 0;font-size:14px}.search{display:none}.hero,.delivery,.bulk{grid-template-columns:1fr;padding:45px 4%}.info,.grid{grid-template-columns:1fr}.art{height:420px}.circle{width:310px;height:310px}.cupwrap{top:90px;transform:translateX(-50%) scale(.78)}.fruit{font-size:42px}.cats{top:116px;padding:12px 4%}.main{padding:40px 4%}.cart{width:92%;right:4%;bottom:18px}}
+
+.customer-fields{margin:12px 0;padding:12px;background:#f6fff8;border-radius:14px}
+.customer-fields input,.customer-fields textarea,.customer-fields select{
+  width:100%;padding:12px;margin:7px 0;border:1px solid #ddd;border-radius:12px;font-weight:700
+}
+.location-btn{
+  width:100%;padding:12px;margin:7px 0;border:none;border-radius:12px;
+  background:#ffcf33;color:#2d2600;font-weight:900;cursor:pointer
+}
+.delivery-note-small{font-size:12px;color:#555;line-height:1.5;margin:6px 0}
+
+
+.owner-control{
+  position:fixed;
+  top:92px;
+  right:20px;
+  z-index:9999;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.owner-control button{
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:900;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
+}
+.owner-open{background:#00a651}
+.owner-close{background:#e53935}
+.shop-status-banner{
+  margin:18px 0;
+  padding:16px 20px;
+  border-radius:18px;
+  font-weight:900;
+  text-align:center;
+  line-height:1.6;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+.shop-open-banner{
+  background:#e8fff0;
+  color:#006241;
+  border:2px solid #9ee8b6;
+}
+.shop-closed-banner{
+  background:#fff1f1;
+  color:#a40000;
+  border:2px solid #ffb6b6;
+}
+.add:disabled,.wa.disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  pointer-events:none;
+}
+@media(max-width:700px){
+  .owner-control{position:static;margin:10px 4%;justify-content:center}
+}
+
+
+.platforms-reviews{margin:50px 8%;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.platform-card,.review-card{background:white;border-radius:24px;padding:26px;box-shadow:0 12px 35px rgba(0,0,0,.12);border:1px solid #eee}
+.platform-card h2,.review-card h2{color:var(--green);margin-bottom:12px;font-size:28px}
+.platform-card p,.review-card p{color:#3b4a45;line-height:1.7}
+.platform-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.swiggy-btn{background:#fc8019;color:white;text-decoration:none;padding:13px 20px;border-radius:999px;font-weight:900;display:inline-block}
+.google-btn{background:#ffffff;color:#006241;border:1px solid #cfe4d8;text-decoration:none;padding:13px 20px;border-radius:999px;font-weight:900;display:inline-block}
+.rating-box{background:#fffbea;border:1px solid #ffe38f;border-radius:18px;padding:18px;margin-top:16px}
+.stars{font-size:28px;color:#ffb400;margin-bottom:8px}
+@media(max-width:900px){.platforms-reviews{grid-template-columns:1fr;margin:35px 4%}}
+
+
+.qty-controls{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  justify-content:flex-end;
+}
+.qty-btn{
+  width:28px;
+  height:28px;
+  border:none;
+  border-radius:50%;
+  background:#006241 !important;
+  color:white;
+  font-weight:900;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+}
+.qty-num{
+  min-width:24px;
+  text-align:center;
+  font-weight:900;
+}
+.cartitem{
+  grid-template-columns:1fr auto auto !important;
+}
+
+
+.payment-box{
+  margin:12px 0;
+  padding:12px;
+  background:#fffbea;
+  border:1px solid #ffe38f;
+  border-radius:14px;
+}
+.payment-box label{
+  display:block;
+  font-weight:800;
+  color:#1e3932;
+  margin-bottom:8px;
+}
+.payment-box select,.payment-box input{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-weight:700;
+}
+.payment-note{
+  font-size:12px;
+  color:#665000;
+  line-height:1.5;
+  margin-top:6px;
+}
+
+
+.direct-upi-box{
+  margin-top:10px;
+  padding:12px;
+  background:#f6fff8;
+  border:1px solid #bde8cd;
+  border-radius:14px;
+}
+.upi-pay-btn{
+  display:block;
+  width:100%;
+  text-align:center;
+  background:#006241;
+  color:white;
+  text-decoration:none;
+  padding:13px;
+  border-radius:999px;
+  font-weight:900;
+  margin:8px 0;
+}
+.upi-pay-btn.disabled{
+  background:#999;
+  pointer-events:none;
+  opacity:.6;
+}
+.upi-small{
+  font-size:12px;
+  color:#3b4a45;
+  line-height:1.5;
+}
+
+</style>
+</head>
+<body>
+
+<div class="owner-control" id="ownerControls" style="display:none;">
+  <button class="owner-open" onclick="openShop()">🟢 Open Shop</button>
+  <button class="owner-close" onclick="closeShop()">🔴 Close Shop</button>
+</div>
+
+
+<div class="top"><span>🍹 Fresh Juice • Cold Pressed • Fruit Bowls</span><span>🛵 Rapido delivery in Hyderabad</span><span>🧡 Swiggy Available</span><span>📱 WhatsApp: +91 99595 70706</span><span>🕙 Orders: 10:00 AM – 8:00 PM</span><span>🎉 Bulk Orders: Anytime (Book 2 Days Before)</span></div>
+<header><div class="logo"><span>🍹</span> Pancharasa</div><nav><a class="active" href="#home">Home</a><a href="#delivery">Delivery</a><a href="#menu">Order</a><a href="#bulk">Bulk Orders</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a></nav><input class="search" placeholder="🔍 Search juice"><div>👤</div></header>
+<section class="hero" id="home"><div><div class="badge">🌿 Fresh • Healthy • Hygienic</div>
+<div id="shopStatusBanner" class="shop-status-banner shop-open-banner">✅ Checking shop status...</div><h1>Fresh Juice,<br><span>Fresh Energy</span></h1><p>Premium fresh juice point for daily refreshment, wellness drinks, fruit bowls and bulk party orders. Add items to cart and send your order directly on WhatsApp.</p><div class="info"><div class="pill">🛵 Rapido delivery in Hyderabad</div><div class="pill">🧡 Swiggy Available</div><div class="pill">⭐ Google Reviews</div><div class="pill">📍 Hyderabad delivery charges included</div><div class="pill">🕙 Orders: 10:00 AM – 8:00 PM</div><div class="pill">🎉 Bulk Orders Anytime (2 Days Advance)</div></div><a class="btn green" href="#menu">🍹 Explore Menu</a> <a class="btn white" href="https://wa.me/919959570706" target="_blank">💚 WhatsApp Order</a></div><div class="art"><div class="circle"></div><div class="cupwrap"><div class="straw"></div><div class="lid"></div><div class="cup"><div class="spark s1"></div><div class="spark s2"></div><div class="spark s3"></div></div></div><div class="fruit f1">🍉</div><div class="fruit f2">🍍</div><div class="fruit f3">🍌</div><div class="fruit f4">🍊</div><div class="fruit f5">🍇</div></div></section>
+<section class="delivery" id="delivery"><div><h2>🛵 Rapido Delivery Charges</h2><p>Enter your exact Hyderabad location or use current location in the cart. Customer can see estimated delivery charges, and final Rapido charge can be confirmed on WhatsApp as per exact location.</p></div><div class="rapido"><h3>📍 Hyderabad Zones</h3><p>Nearby Hyderabad: ₹40</p><p>Mid Hyderabad: ₹70</p><p>Far Hyderabad: ₹100</p><p>Bulk/custom delivery: confirm on WhatsApp</p></div></section>
+<div class="cats"><div class="scroll"><div class="chip active" data-filter="All">All</div><div class="chip" data-filter="Fresh Juice">Fresh Juice</div><div class="chip" data-filter="Cold Pressed">Cold Pressed</div><div class="chip" data-filter="Fruit Bowl">Fruit Bowl</div><div class="chip" data-filter="Detox">Detox</div><div class="chip" data-filter="Seasonal">Seasonal</div><div class="chip" data-filter="Healthy">Healthy</div><div class="chip" data-filter="Best Seller">Best Sellers</div></div></div>
+
+<section class="platforms-reviews" id="reviews">
+  <div class="platform-card">
+    <h2>🧡 Available on Swiggy</h2>
+    <p>Pancharasa Juicery is also available on Swiggy for customers who prefer app-based delivery.</p>
+    <div class="platform-actions">
+      <a class="swiggy-btn" href="https://www.swiggy.com/city/hyderabad/pancharasa-juicery-ameerpet-rest1349329" target="_blank">🧡 Order on Swiggy</a>
+      <a class="google-btn" href="https://www.google.com/search?q=Pancharasa+Juicery" target="_blank">🔎 Search on Google</a>
+    </div>
+  </div>
+  <div class="review-card">
+    <h2>⭐ Reviews & Rating</h2>
+    <p>Want to know more before ordering? Search <b>Pancharasa Juicery</b> on Google to see latest rating, photos and reviews.</p>
+    <div class="rating-box">
+      <div class="stars">★★★★★</div>
+      <b>Fresh juice • Healthy taste • Quick delivery</b>
+      <p style="margin-top:8px;">Please check Google for the latest live rating and customer reviews.</p>
+    </div>
+  </div>
+</section>
+
+<main class="main" id="menu"><h2>Fresh Juice Menu</h2><p>Add items to cart. Delivery charges are added based on selected Hyderabad Rapido zone.</p><div class="quote">“Fresh fruits, fresh energy — your healthy sip starts here.” 🌿</div><div class="grid" id="productGrid"></div><section class="bulk" id="bulk"><div><h2>🎉 Bulk Orders Available</h2><p>We take bulk orders for parties, offices, colleges, weddings, birthdays and events.</p><ul><li>✅ Fresh juice counters</li><li>✅ Fruit bowls and fruit thali</li><li>✅ Custom quantity orders</li><li>✅ Delivery through Rapido in Hyderabad</li></ul></div><div class="box"><h3>⚠️ Important</h3><p>For bulk orders, please book <b>2 days in advance</b>.</p><br><a class="wa" href="https://wa.me/919959570706?text=Hi%20Pancharasa%20Juicery%2C%20I%20want%20to%20place%20a%20bulk%20order%20with%20Rapido%20delivery%20in%20Hyderabad." target="_blank">📱 Book Bulk Order</a></div></section></main>
+<div class="cart" id="cart"><div class="carthead"><span>🛒 Your Order</span><span onclick="closeCart()" style="cursor:pointer">✕</span></div><div class="cartbody">
+  <div id="cartItems"></div>
+
+  <div class="customer-fields">
+    <input id="customerName" placeholder="👤 Customer Name" oninput="updateCart()">
+    <input id="customerPhone" placeholder="📱 Phone Number" oninput="updateCart()">
+    <textarea id="customerLocation" rows="2" placeholder="📍 Exact delivery location / landmark / Google Maps link" oninput="updateCart()"></textarea>
+    <button class="location-btn" onclick="getLocation()">📍 Use Current Location</button>
+
+    <select id="deliveryZone" onchange="updateCart()">
+      <option value="0">Pickup / No delivery charge - ₹0</option>
+      <option value="40">Nearby Hyderabad delivery estimate - ₹40</option>
+      <option value="70">Mid Hyderabad delivery estimate - ₹70</option>
+      <option value="100">Far Hyderabad delivery estimate - ₹100</option>
+      <option value="0">Exact Rapido charge confirm on WhatsApp</option>
+    </select>
+
+    <div class="delivery-note-small">
+      🛵 Delivery charges are estimated by location. Final Rapido charge can be confirmed after customer shares exact location.
+    </div>
+
+    <div class="payment-box">
+      <label>💳 Payment Method</label>
+      <select id="paymentMethod" onchange="toggleUpiField(); updateCart();">
+        <option value="Cash on Delivery">Cash on Delivery</option>
+        <option value="UPI / Google Pay / PhonePe">UPI / Google Pay / PhonePe</option>
+        <option value="Pay after final delivery charge confirmation">Pay after final delivery charge confirmation</option>
+      </select>
+
+      <input id="upiTxn" placeholder="UPI transaction ID / screenshot note (optional)" style="display:none;" oninput="updateCart()">
+
+      <div id="directUpiBox" class="direct-upi-box" style="display:none;">
+        <a id="upiPayNow" class="upi-pay-btn disabled" href="#">💳 Pay Now with UPI</a>
+        <div class="upi-small">
+          This opens Google Pay, PhonePe, Paytm, BHIM or any UPI app on mobile. Amount is filled automatically from your cart total.
+        </div>
+      </div>
+
+      <div class="payment-note">
+        Select UPI and click Pay Now to open Google Pay, PhonePe, Paytm, BHIM or any UPI app. Final amount may change based on exact delivery location.
+      </div>
+    </div>
+  </div>
+
+  <div class="row"><span>Items Total</span><b id="itemsTotal">₹0</b></div>
+  <div class="row"><span>Delivery Charge</span><b id="deliveryCharge">₹0</b></div>
+  <div class="total" id="cartTotal">Total: ₹0</div>
+  <div id="orderStatusNote" class="delivery-note-small"></div>
+<a class="wa" id="waOrder" target="_blank">Send Order on WhatsApp</a>
+</div></div>
+<a class="float" href="https://wa.me/919959570706" target="_blank">💬</a>
+<footer id="contact"><h2>🍹 Pancharasa Juicery</h2><p>📱 WhatsApp: <b>+91 99595 70706</b></p><p>📸 Instagram: <b>🍍 @pancharasa.juicery 🍉</b></p><p>🕙 Orders: 10:00 AM – 8:00 PM</p><p>🎉 Bulk Orders Anytime (Book 2 Days Before)</p><p>🧡 Also available on Swiggy</p><p>⭐ Search Pancharasa Juicery on Google for reviews</p><p>💳 Payment options: Cash on Delivery • Direct UPI Payment • Google Pay • PhonePe</p><p>🛵 Rapido delivery in Hyderabad • Delivery charges added in cart</p></footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+const MERCHANT_UPI_ID = "9959570706@upi"; // Replace with your real UPI ID if different
+const MERCHANT_NAME = "Pancharasa Juicery";
+
+const products=[["🍎","Apple Juice","Fresh apple juice with natural sweetness.","Fresh Juice",50],["🍊","Mosambi Juice","Light citrus refreshment for daily energy.","Fresh Juice",40],["🍍","Pineapple Juice","Tropical refreshing taste with vitamin C.","Fresh Juice",50],["🍇","Black Grape Juice","Rich grape flavour with natural antioxidants.","Fresh Juice",50],["🍉","Watermelon Juice","Cooling and hydrating summer favourite.","Fresh Juice",40],["🍈","Musk Melon Juice","Smooth melon drink, fresh and naturally cooling.","Fresh Juice",50],["🧡","Papaya Juice","Soft, nutritious and good for digestion.","Fresh Juice",40],["🍌","Banana Juice","Creamy, filling and naturally energizing.","Fresh Juice",40],["🥭","Sapota / Chikoo","Sweet and creamy fruit drink with rich taste.","Fresh Juice",40],["🔴","Anar Juice","Pomegranate freshness with rich natural flavour.","Fresh Juice",50],["🥭","Mango Seasonal","Seasonal king of fruits, thick and delicious.","Seasonal",100],["🍊","Orange Seasonal","Seasonal citrus drink packed with freshness.","Seasonal",60],["🍮","Sitaphal Seasonal","Custard apple delight, rich and creamy.","Seasonal",80],["🥕","Carrot Juice","Healthy, fresh and naturally nutritious.","Healthy",50],["🟣","Beetroot Juice","Earthy, healthy and full of natural goodness.","Healthy",50],["🥤","ABC Juice","Apple + Beetroot + Carrot healthy blend.","Best Seller",50],["🌿","Ash Gourd Juice","Cooling detox drink made fresh.","Detox",100],["🥗","Fruit Bowl","Fresh seasonal fruits served clean.","Fruit Bowl",30],["🍓","Special Fruit Bowl","Premium mixed fruit bowl for a rich fresh bite.","Fruit Bowl",80],["🍱","Fruit Thali","Perfect fruit platter for one person or sharing.","Fruit Bowl",100],["🍎","Apple Cold Pressed","Pure apple goodness with rich natural taste.","Cold Pressed",80],["🍊","Mosambi Cold Pressed","Fresh citrus cold pressed for clean flavour.","Cold Pressed",60],["🍍","Pineapple Cold Pressed","Bright tropical flavour with fresh sweetness.","Cold Pressed",80],["🍇","Black Grape Cold Pressed","Deep grape taste and antioxidant richness.","Cold Pressed",80],["🍉","Watermelon Cold Pressed","Hydrating, light and perfect for summer.","Cold Pressed",40],["🍈","Muskmelon Cold Pressed","Refreshing melon drink with smooth taste.","Cold Pressed",70],["🧡","Papaya Cold Pressed","Healthy and naturally sweet fruit drink.","Cold Pressed",80],["🥭","Sapota Cold Pressed","Sweet chikoo flavour with creamy texture.","Cold Pressed",80],["🔴","Anar Cold Pressed","Premium pomegranate flavour, fresh and rich.","Cold Pressed",90],["🥕","Carrot Cold Pressed","Nutritious carrot drink with natural freshness.","Cold Pressed",90],["🟣","Beetroot Cold Pressed","Healthy beetroot juice for wellness.","Cold Pressed",90],["🥤","ABC Cold Pressed","Apple, beetroot and carrot wellness drink.","Cold Pressed",90],["🌿","Ash Gourd Cold Pressed","Cooling detox drink made fresh.","Cold Pressed",100]];
+let cart=[];
+function render(filter="All"){const grid=document.getElementById("productGrid");grid.innerHTML="";products.filter(p=>filter==="All"||p[3]===filter).forEach((p,i)=>{const card=document.createElement("div");card.className="card";card.style.animationDelay=(i*.03)+"s";card.innerHTML=`<div><div class="cardtop"><div class="img">${p[0]}</div><div><span class="tag">${p[3]}</span><h3>${p[1]}</h3><div class="meta">REGULAR • Freshly prepared</div><p class="desc">${p[2]}</p></div></div></div><div class="pricebar"><div class="price">₹ ${p[4]}</div><button class="add" onclick="addItem('${p[1]}',${p[4]})">+ Add Item</button></div>`;grid.appendChild(card)})}
+function addItem(name,price){if(SHOP_STATUS === "CLOSED"){alert("Shop is closed now. Regular orders are not accepted at this moment. Bulk orders can be booked anytime, 2 days before.");return;}const e=cart.find(x=>x.name===name);if(e){e.qty++}else{cart.push({name,price,qty:1})}updateCart();document.getElementById("cart").classList.add("show")}
+function removeItem(name){cart=cart.filter(x=>x.name!==name);updateCart()}
+function increaseItem(name){
+  const item = cart.find(x=>x.name===name);
+  if(item){ item.qty++; }
+  updateCart();
+}
+function decreaseItem(name){
+  const item = cart.find(x=>x.name===name);
+  if(item){
+    item.qty--;
+    if(item.qty<=0){ cart = cart.filter(x=>x.name!==name); }
+  }
+  updateCart();
+}
+
+function toggleUpiField(){
+  const method = document.getElementById("paymentMethod") ? document.getElementById("paymentMethod").value : "";
+  const upi = document.getElementById("upiTxn");
+  const directBox = document.getElementById("directUpiBox");
+  if(upi){
+    upi.style.display = method.includes("UPI") ? "block" : "none";
+  }
+  if(directBox){
+    directBox.style.display = method.includes("UPI") ? "block" : "none";
+  }
+}
+
+
+function buildUpiLink(amount){
+  const orderNote = "Pancharasa Juicery Order";
+  return "upi://pay?pa=" + encodeURIComponent(MERCHANT_UPI_ID) +
+         "&pn=" + encodeURIComponent(MERCHANT_NAME) +
+         "&am=" + encodeURIComponent(amount) +
+         "&cu=INR" +
+         "&tn=" + encodeURIComponent(orderNote);
+}
+
+function updateCart(){
+  const items=document.getElementById("cartItems");
+  const itemTotal=cart.reduce((s,x)=>s+x.price*x.qty,0);
+  const deliverySelect=document.getElementById("deliveryZone");
+  const delivery=deliverySelect ? Number(deliverySelect.value) : 0;
+  const total=itemTotal+delivery;
+
+  items.innerHTML=cart.map(x=>`<div class="cartitem">
+    <span>${x.name}</span>
+    <div class="qty-controls">
+      <button class="qty-btn" onclick="decreaseItem('${x.name}')">−</button>
+      <span class="qty-num">${x.qty}</span>
+      <button class="qty-btn" onclick="increaseItem('${x.name}')">+</button>
+    </div>
+    <b>₹${x.price*x.qty}</b>
+  </div>`).join("");
+
+  document.getElementById("itemsTotal").innerText="₹"+itemTotal;
+  document.getElementById("deliveryCharge").innerText="₹"+delivery;
+  document.getElementById("cartTotal").innerText="Total: ₹"+total;
+
+  const upiPayNow=document.getElementById("upiPayNow");
+  const paymentMethodForLink=document.getElementById("paymentMethod") ? document.getElementById("paymentMethod").value : "";
+  if(upiPayNow){
+    if(paymentMethodForLink.includes("UPI") && total>0){
+      upiPayNow.href = buildUpiLink(total);
+      upiPayNow.classList.remove("disabled");
+      upiPayNow.innerText = "💳 Pay Now ₹" + total + " with UPI";
+    }else{
+      upiPayNow.href = "#";
+      upiPayNow.classList.add("disabled");
+      upiPayNow.innerText = "💳 Pay Now with UPI";
+    }
+  }
+
+
+  const name=document.getElementById("customerName") ? document.getElementById("customerName").value : "";
+  const phone=document.getElementById("customerPhone") ? document.getElementById("customerPhone").value : "";
+  const location=document.getElementById("customerLocation") ? document.getElementById("customerLocation").value : "";
+  const zone=deliverySelect ? deliverySelect.selectedOptions[0].text : "Delivery charge confirm on WhatsApp";
+  const paymentMethod=document.getElementById("paymentMethod") ? document.getElementById("paymentMethod").value : "Cash on Delivery";
+  const upiTxn=document.getElementById("upiTxn") ? document.getElementById("upiTxn").value : "";
+
+  const orderItems=cart.map(x=>"- "+x.name+" x"+x.qty+" = ₹"+(x.price*x.qty)).join("%0A");
+  const msg="Hi Pancharasa Juicery, I want to order:%0A"+
+    orderItems+
+    "%0A%0A👤 Name: "+name+
+    "%0A📱 Phone: "+phone+
+    "%0A📍 Location: "+location+
+    "%0A%0AItems Total: ₹"+itemTotal+
+    "%0ADelivery: "+zone+
+    "%0ADelivery Charge: ₹"+delivery+
+    "%0ATotal: ₹"+total+
+    "%0A💳 Payment Method: "+paymentMethod+
+    "%0A🧾 UPI Transaction Note: "+upiTxn+
+    "%0A📲 Direct UPI Payment: Customer can click Pay Now button before sending this order."+
+    "%0A%0APlease confirm final Rapido delivery charge as per my location.";
+  document.getElementById("waOrder").href="https://wa.me/919959570706?text="+msg;
+}
+
+function getLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position){
+      const lat=position.coords.latitude;
+      const lng=position.coords.longitude;
+      document.getElementById("customerLocation").value="https://www.google.com/maps?q="+lat+","+lng;
+      updateCart();
+    }, function(){
+      alert("Please allow location permission or enter your address manually.");
+    });
+  }else{
+    alert("Location not supported. Please enter your address manually.");
+  }
+}
+function closeCart(){document.getElementById("cart").classList.remove("show")}
+document.querySelectorAll(".chip").forEach(chip=>chip.addEventListener("click",()=>{document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));chip.classList.add("active");render(chip.dataset.filter)}));
+document.querySelector(".search").addEventListener("input",e=>{const q=e.target.value.toLowerCase();const grid=document.getElementById("productGrid");grid.innerHTML="";products.filter(p=>p[1].toLowerCase().includes(q)).forEach(p=>{const card=document.createElement("div");card.className="card";card.innerHTML=`<div><div class="cardtop"><div class="img">${p[0]}</div><div><span class="tag">${p[3]}</span><h3>${p[1]}</h3><div class="meta">REGULAR • Freshly prepared</div><p class="desc">${p[2]}</p></div></div></div><div class="pricebar"><div class="price">₹ ${p[4]}</div><button class="add" onclick="addItem('${p[1]}',${p[4]})">+ Add Item</button></div>`;grid.appendChild(card)}); updateShopStatus();});
+
+
+
+
+
+const OWNER_PASSWORD = "9959570706";
+let SHOP_STATUS = "OPEN";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC47u1z5SW1BnCKSU6l9n9PTcEq6BOStV8",
+  authDomain: "pancharasa-925ab.firebaseapp.com",
+  databaseURL: "https://pancharasa-925ab-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "pancharasa-925ab",
+  storageBucket: "pancharasa-925ab.firebasestorage.app",
+  messagingSenderId: "518203557137",
+  appId: "1:518203557137:web:5a1045cdf52a586d7438b0"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+const shopStatusRef = database.ref("shopStatus");
+
+function isOwnerMode(){
+  const params = new URLSearchParams(window.location.search);
+  return params.get("owner") === "true";
+}
+
+function setupOwnerAccess(){
+  const controls = document.getElementById("ownerControls");
+  if(!controls) return;
+
+  if(isOwnerMode()){
+    const pass = prompt("Enter Owner Password");
+    if(pass === OWNER_PASSWORD){
+      controls.style.display = "flex";
+      alert("Owner access granted.");
+    }else{
+      controls.style.display = "none";
+      alert("Access denied. Customer view only.");
+    }
+  }else{
+    controls.style.display = "none";
+  }
+}
+
+function openShop(){
+  shopStatusRef.set("OPEN");
+  alert("Shop is now OPEN for all customers.");
+}
+
+function closeShop(){
+  shopStatusRef.set("CLOSED");
+  alert("Shop is now CLOSED for all customers.");
+}
+
+function updateShopStatus(){
+  const banner = document.getElementById("shopStatusBanner");
+  const addButtons = document.querySelectorAll(".add");
+  const whatsappButton = document.getElementById("waOrder");
+  const orderNote = document.getElementById("orderStatusNote");
+
+  if(SHOP_STATUS === "CLOSED"){
+    if(banner){
+      banner.className = "shop-status-banner shop-closed-banner";
+      banner.innerHTML = "❌ SHOP CLOSED NOW<br>We are not accepting regular orders at this moment.<br>🎉 Bulk Orders: Available Anytime (Book 2 Days Before)";
+    }
+
+    addButtons.forEach(btn=>{
+      btn.disabled = true;
+      btn.innerText = "Closed";
+    });
+
+    if(whatsappButton){
+      whatsappButton.classList.add("disabled");
+      whatsappButton.style.pointerEvents = "none";
+      whatsappButton.style.opacity = "0.5";
+      whatsappButton.innerText = "Shop Closed";
+    }
+
+    if(orderNote){
+      orderNote.innerHTML = "❌ Shop is closed now. Regular orders are not accepted. Bulk orders can be booked anytime, 2 days before.";
+    }
+  }else{
+    if(banner){
+      banner.className = "shop-status-banner shop-open-banner";
+      banner.innerHTML = "✅ SHOP OPEN NOW<br>🕙 Regular Orders: 10:00 AM – 8:00 PM<br>🍽️ Lunch Break: 1:00 PM – 2:00 PM";
+    }
+
+    addButtons.forEach(btn=>{
+      btn.disabled = false;
+      btn.innerText = "+ Add Item";
+    });
+
+    if(whatsappButton){
+      whatsappButton.classList.remove("disabled");
+      whatsappButton.style.pointerEvents = "auto";
+      whatsappButton.style.opacity = "1";
+      whatsappButton.innerText = "Send Order on WhatsApp";
+    }
+
+    if(orderNote){
+      orderNote.innerHTML = "✅ Shop is open now. You can place your order.";
+    }
+  }
+}
+
+setupOwnerAccess();
+render();
+
+shopStatusRef.on("value", snapshot => {
+  SHOP_STATUS = snapshot.val() || "OPEN";
+  updateShopStatus();
+});
+
+</script>
+</body>
+</html>
