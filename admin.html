@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pancharasa Admin Dashboard</title>
+<style>
+:root{--green:#006241;--dark:#1e3932;--orange:#fc8019;--red:#e53935;--bg:#f4fff0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#fffbea,#e9ffe4);color:#111;min-height:100vh}
+.header{background:var(--dark);color:white;padding:18px 7%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.header h1{font-size:24px}
+.wrap{padding:35px 7%;max-width:1100px;margin:auto}
+.login,.panel{background:white;border-radius:22px;padding:26px;box-shadow:0 14px 35px rgba(0,0,0,.12)}
+.login{max-width:430px;margin:70px auto}
+label{display:block;font-weight:800;color:#1e3932;margin:16px 0 7px}
+input,textarea,select{width:100%;padding:13px 14px;border:1px solid #cfe4d8;border-radius:12px;font-size:15px}
+textarea{min-height:90px}
+button{border:none;border-radius:999px;padding:13px 20px;font-weight:900;cursor:pointer}
+.btn-green{background:var(--green);color:white}
+.btn-red{background:var(--red);color:white}
+.btn-orange{background:var(--orange);color:white}
+.btn-dark{background:var(--dark);color:white}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.status-card{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;background:#f6fff8;border:1px solid #bde8cd;border-radius:18px;padding:18px;margin-bottom:22px}
+.status-text{font-size:22px;font-weight:900;color:var(--green)}
+.closed{color:var(--red)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.card{background:#fbfffc;border:1px solid #e1f0e7;border-radius:18px;padding:20px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.notice{margin-top:16px;padding:14px;border-radius:14px;background:#fffbea;border:1px solid #ffe38f;color:#665000;font-weight:700}
+.small{font-size:13px;color:#5e6d67;line-height:1.5;margin-top:8px}
+a{color:var(--green);font-weight:800}
+@media(max-width:780px){.row,.grid,.status-card{grid-template-columns:1fr}.wrap{padding:20px 4%}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🍹 Pancharasa Juicery Admin</h1>
+  <div>Owner Dashboard</div>
+</div>
+
+<div class="wrap">
+  <section class="login" id="loginBox">
+    <h2>🔐 Owner Login</h2>
+    <p class="small">Enter owner password to update shop settings.</p>
+    <label>Password</label>
+    <input type="password" id="passwordInput" placeholder="Enter owner password">
+    <div class="actions">
+      <button class="btn-green" onclick="login()">Login</button>
+    </div>
+    <div class="notice">Default owner password: 9959570706</div>
+  </section>
+
+  <section class="panel" id="adminPanel" style="display:none;">
+    <div class="status-card">
+      <div>
+        <div class="small">Current Shop Status</div>
+        <div id="statusText" class="status-text">Checking...</div>
+      </div>
+      <button class="btn-green" onclick="setStatus('OPEN')">🟢 Open Shop</button>
+      <button class="btn-red" onclick="setStatus('CLOSED')">🔴 Close Shop</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>📱 Contact & Social</h3>
+        <label>WhatsApp Number</label>
+        <input id="whatsappNumber" placeholder="9959570706">
+
+        <label>Instagram</label>
+        <input id="instagram" placeholder="pancharasa.juicery">
+
+        <label>Swiggy Link</label>
+        <input id="swiggyLink" placeholder="https://www.swiggy.com/...">
+      </div>
+
+      <div class="card">
+        <h3>🕙 Timings</h3>
+        <div class="row">
+          <div>
+            <label>Order Start Time</label>
+            <input id="orderStartTime" placeholder="10:00 AM">
+          </div>
+          <div>
+            <label>Order End Time</label>
+            <input id="orderEndTime" placeholder="8:00 PM">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Lunch Start</label>
+            <input id="lunchStart" placeholder="1:00 PM">
+          </div>
+          <div>
+            <label>Lunch End</label>
+            <input id="lunchEnd" placeholder="2:00 PM">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⭐ Review / Rating Text</h3>
+        <label>Review Heading Text</label>
+        <textarea id="reviewText" placeholder="Fresh Juice, Fresh Energy"></textarea>
+        <p class="small">Customers can search “Pancharasa Juicery” on Google to see latest reviews and rating.</p>
+      </div>
+
+      <div class="card">
+        <h3>🌐 Website Links</h3>
+        <p class="small">Customer Website:</p>
+        <p><a href="https://pancharasa.netlify.app" target="_blank">https://pancharasa.netlify.app</a></p>
+        <br>
+        <p class="small">Admin Dashboard:</p>
+        <p><a href="https://pancharasa.netlify.app/admin.html" target="_blank">https://pancharasa.netlify.app/admin.html</a></p>
+        <div class="notice">Do not share admin link or password with customers.</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-green" onclick="saveSettings()">💾 Save Settings</button>
+      <button class="btn-orange" onclick="loadSettings()">🔄 Refresh From Firebase</button>
+      <button class="btn-dark" onclick="logout()">Logout</button>
+    </div>
+
+    <div id="message" class="notice" style="display:none;"></div>
+  </section>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+const OWNER_PASSWORD = "9959570706";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC47u1z5SW1BnCKSU6l9n9PTcEq6BOStV8",
+  authDomain: "pancharasa-925ab.firebaseapp.com",
+  databaseURL: "https://pancharasa-925ab-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "pancharasa-925ab",
+  storageBucket: "pancharasa-925ab.firebasestorage.app",
+  messagingSenderId: "518203557137",
+  appId: "1:518203557137:web:5a1045cdf52a586d7438b0"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function login(){
+  const pass = document.getElementById("passwordInput").value.trim();
+  if(pass !== OWNER_PASSWORD){
+    alert("Wrong password");
+    return;
+  }
+  sessionStorage.setItem("pancharasaAdmin","yes");
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("adminPanel").style.display = "block";
+  loadSettings();
+}
+
+function logout(){
+  sessionStorage.removeItem("pancharasaAdmin");
+  location.reload();
+}
+
+function showMessage(text){
+  const msg = document.getElementById("message");
+  msg.style.display = "block";
+  msg.innerText = text;
+  setTimeout(()=>msg.style.display="none",3000);
+}
+
+function loadSettings(){
+  db.ref("/").once("value").then(snapshot=>{
+    const data = snapshot.val() || {};
+    document.getElementById("whatsappNumber").value = data.whatsappNumber || "9959570706";
+    document.getElementById("instagram").value = data.instagram || "pancharasa.juicery";
+    document.getElementById("swiggyLink").value = data.swiggyLink || "https://www.swiggy.com/city/hyderabad/pancharasa-juicery-ameerpet-rest1349329";
+    document.getElementById("orderStartTime").value = data.orderStartTime || "10:00 AM";
+    document.getElementById("orderEndTime").value = data.orderEndTime || "8:00 PM";
+    document.getElementById("lunchStart").value = data.lunchStart || "1:00 PM";
+    document.getElementById("lunchEnd").value = data.lunchEnd || "2:00 PM";
+    document.getElementById("reviewText").value = data.reviewText || "Fresh Juice, Fresh Energy";
+    updateStatusText(data.shopStatus || "OPEN");
+  }).catch(error=>{
+    alert("Could not load Firebase settings. Check Firebase rules.");
+    console.error(error);
+  });
+}
+
+function updateStatusText(status){
+  const statusText = document.getElementById("statusText");
+  statusText.innerText = status === "CLOSED" ? "🔴 CLOSED" : "🟢 OPEN";
+  statusText.className = status === "CLOSED" ? "status-text closed" : "status-text";
+}
+
+function setStatus(status){
+  db.ref("shopStatus").set(status).then(()=>{
+    updateStatusText(status);
+    showMessage("Shop status updated to " + status);
+  }).catch(error=>{
+    alert("Could not update shop status. Check Firebase rules.");
+    console.error(error);
+  });
+}
+
+function saveSettings(){
+  const data = {
+    whatsappNumber: document.getElementById("whatsappNumber").value.trim(),
+    instagram: document.getElementById("instagram").value.trim(),
+    swiggyLink: document.getElementById("swiggyLink").value.trim(),
+    orderStartTime: document.getElementById("orderStartTime").value.trim(),
+    orderEndTime: document.getElementById("orderEndTime").value.trim(),
+    lunchStart: document.getElementById("lunchStart").value.trim(),
+    lunchEnd: document.getElementById("lunchEnd").value.trim(),
+    reviewText: document.getElementById("reviewText").value.trim()
+  };
+
+  db.ref("/").update(data).then(()=>{
+    showMessage("Settings saved successfully.");
+  }).catch(error=>{
+    alert("Could not save settings. Check Firebase rules.");
+    console.error(error);
+  });
+}
+
+db.ref("shopStatus").on("value", snapshot=>{
+  updateStatusText(snapshot.val() || "OPEN");
+});
+
+if(sessionStorage.getItem("pancharasaAdmin") === "yes"){
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("adminPanel").style.display = "block";
+  loadSettings();
+}
+</script>
+</body>
+</html>
